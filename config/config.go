@@ -7,8 +7,9 @@ import (
 )
 
 type MongoDB struct {
-	DBLINK string
-	DBNAME string
+	DBLINK          string
+	DBNAME          string
+	ACCUWEATHER_KEY string
 }
 
 func InitConfig() *MongoDB {
@@ -44,6 +45,12 @@ func readEnv() *MongoDB {
 
 	if val, found := os.LookupEnv("DBNAME"); found {
 		data.DBNAME = val
+	} else {
+		permit = false
+	}
+
+	if val, found := os.LookupEnv("ACCUWEATHER_KEY"); found {
+		data.ACCUWEATHER_KEY = val
 	} else {
 		permit = false
 	}
