@@ -51,6 +51,7 @@ func (cq *CityQuery) NewCity(NewCity prediction.Prediction) (prediction.Predicti
 	}
 
 	// Return the updated newCity with the fetched weather information
+	NewCity.NameCountry = inputDB.NameCountry
 	NewCity.Temperature = inputDB.Temperature
 	NewCity.Humidity = inputDB.Humidity
 	NewCity.Description = inputDB.Description
