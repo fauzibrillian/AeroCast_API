@@ -51,7 +51,7 @@ func (cq *CityQuery) NewCity(NewCity prediction.Prediction) (prediction.Predicti
 		Description:    weather.Description,
 		Wind:           weather.Wind,
 		Rain:           weather.Rain,
-		Date:           time.Now(),
+		Date:           weather.Date,
 	}
 
 	// Insert the CityModel into the MongoDB collection
