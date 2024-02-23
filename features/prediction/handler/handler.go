@@ -58,8 +58,13 @@ func (ch *CityHandler) AddCity() echo.HandlerFunc {
 		response.NameCity = result.NameCity
 		response.NameCountry = result.NameCountry
 		response.Temperature = result.Temperature
+		response.MinTemperature = result.MinTemperature
+		response.MaxTemperature = result.MaxTemperature
 		response.Humidity = result.Humidity
+		response.Condition = result.Condition
 		response.Description = result.Description
+		response.Wind = result.Wind
+		response.Rain = result.Rain
 		response.Date = result.Date
 
 		return responses.PrintResponse(c, http.StatusCreated, "Success Create City Data", response)

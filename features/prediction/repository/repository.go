@@ -10,12 +10,17 @@ import (
 )
 
 type CityModel struct {
-	NameCity    string    `bson:"name_city"`
-	NameCountry string    `bson:"name_country"`
-	Temperature uint      `bson:"temperature"`
-	Humidity    uint      `bson:"humidity"`
-	Description string    `bson:"description"`
-	Date        time.Time `bson:"date"`
+	NameCity       string    `bson:"name_city"`
+	NameCountry    string    `bson:"name_country"`
+	Temperature    float64   `bson:"temperature"`
+	MinTemperature float64   `bson:"min_temperature"`
+	MaxTemperature float64   `bson:"max_temperature"`
+	Humidity       uint      `bson:"humidity"`
+	Condition      string    `bson:"condition"`
+	Description    string    `bson:"description"`
+	Wind           float64   `bson:"wind"`
+	Rain           float64   `bson:"rain"`
+	Date           time.Time `bson:"date"`
 }
 
 type CityQuery struct {
@@ -36,12 +41,17 @@ func (cq *CityQuery) NewCity(NewCity prediction.Prediction) (prediction.Predicti
 
 	// Create a new CityModel instance
 	inputDB := &CityModel{
-		NameCity:    NewCity.NameCity,
-		NameCountry: weather.NameCountry,
-		Temperature: weather.Temperature,
-		Humidity:    weather.Humidity,
-		Description: weather.Description,
-		Date:        time.Now(),
+		NameCity:       NewCity.NameCity,
+		NameCountry:    weather.NameCountry,
+		Temperature:    weather.Temperature,
+		MinTemperature: weather.MinTemperature,
+		MaxTemperature: weather.MaxTemperature,
+		Humidity:       weather.Humidity,
+		Condition:      weather.Condition,
+		Description:    weather.Description,
+		Wind:           weather.Wind,
+		Rain:           weather.Rain,
+		Date:           time.Now(),
 	}
 
 	// Insert the CityModel into the MongoDB collection
@@ -53,8 +63,13 @@ func (cq *CityQuery) NewCity(NewCity prediction.Prediction) (prediction.Predicti
 	// Return the updated newCity with the fetched weather information
 	NewCity.NameCountry = inputDB.NameCountry
 	NewCity.Temperature = inputDB.Temperature
+	NewCity.MinTemperature = inputDB.MinTemperature
+	NewCity.MaxTemperature = inputDB.MaxTemperature
 	NewCity.Humidity = inputDB.Humidity
+	NewCity.Condition = inputDB.Condition
 	NewCity.Description = inputDB.Description
+	NewCity.Wind = inputDB.Wind
+	NewCity.Rain = inputDB.Rain
 	NewCity.Date = inputDB.Date
 
 	return NewCity, nil

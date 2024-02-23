@@ -7,12 +7,17 @@ import (
 )
 
 type Prediction struct {
-	NameCity    string
-	NameCountry string
-	Temperature uint
-	Humidity    uint
-	Description string
-	Date        time.Time
+	NameCity       string
+	NameCountry    string
+	Temperature    float64
+	MinTemperature float64
+	MaxTemperature float64
+	Humidity       uint
+	Condition      string
+	Description    string
+	Wind           float64
+	Rain           float64
+	Date           time.Time
 }
 
 type Handler interface {
