@@ -24,3 +24,13 @@ func (cs *CityServices) NewCity(NewCity prediction.Prediction) (prediction.Predi
 
 	return result, err
 }
+
+// SearchCity implements prediction.Service.
+func (cs *CityServices) SearchCity(NameCity string, NameCountry string, page uint, limit uint) ([]prediction.Prediction, uint, error) {
+	result, totalPage, err := cs.repo.SearchCity(NameCity, NameCountry, page, limit)
+	if err != nil {
+		return []prediction.Prediction{}, 0, errors.New("repository error")
+	}
+
+	return result, totalPage, err
+}
