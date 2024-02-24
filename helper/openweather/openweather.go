@@ -17,12 +17,17 @@ func OpenWeatherMap(NameCity string) (newCity prediction.Prediction) {
 	}
 	client.CurrentByName(NameCity)
 	newCity = prediction.Prediction{
-		NameCity:    NameCity,
-		NameCountry: client.Sys.Country,
-		Temperature: uint(client.Main.Temp),
-		Humidity:    uint(client.Main.Humidity),
-		Description: client.Weather[0].Description,
-		Date:        time.Unix(int64(client.Dt), 0),
+		NameCity:       NameCity,
+		NameCountry:    client.Sys.Country,
+		Temperature:    float64(client.Main.Temp),
+		MinTemperature: float64(client.Main.TempMin),
+		MaxTemperature: float64(client.Main.TempMax),
+		Humidity:       uint(client.Main.Humidity),
+		Condition:      client.Weather[0].Main,
+		Description:    client.Weather[0].Description,
+		Wind:           float64(client.Wind.Speed),
+		Rain:           float64(client.Rain.OneH),
+		Date:           time.Unix(int64(client.Dt), 0),
 	}
 
 	return newCity

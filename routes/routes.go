@@ -17,4 +17,6 @@ func InitRoute(e *echo.Echo, ch prediction.Handler) {
 }
 func routeCity(e *echo.Echo, ch prediction.Handler) {
 	e.POST("/city", ch.AddCity())
+	e.GET("/city", ch.SearchCity())
+
 }
