@@ -45,7 +45,7 @@ go mod tidy
 <summary>City</summary> 
 <div>
   
-| Feature User | Endpoint | Param | Function |
+| Feature City | Endpoint | Param | Function |
 | --- | --- | --- | --- |
 | GET | /city | NameCity or NameCountry | + | Get and Search all city. |
 | POST | /city  | - | + | Post city data. |
