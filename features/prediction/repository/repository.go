@@ -6,7 +6,9 @@ import (
 	"context"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type CityModel struct {
@@ -73,4 +75,60 @@ func (cq *CityQuery) NewCity(NewCity prediction.Prediction) (prediction.Predicti
 	NewCity.Date = inputDB.Date
 
 	return NewCity, nil
+}
+
+// SearchCity implements prediction.Repository.
+func (cq *CityQuery) SearchCity(NameCity string, NameCountry string, page uint, limit uint) ([]prediction.Prediction, uint, error) {
+	offset := (page - 1) * limit
+	filter := bson.M{}
+	if NameCity != "" {
+		filter["name_city"] = NameCity
+	}
+	if NameCountry != "" {
+		filter["name_country"] = NameCountry
+	}
+
+	options := options.Find().
+		SetSkip(int64(offset)).
+		SetLimit(int64(limit)).
+		SetSort(bson.M{"date": -1})
+
+	cursor, err := cq.db.Collection(cq.collection).Find(context.Background(), filter, options)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer cursor.Close(context.Background())
+
+	var predictions []prediction.Prediction
+	for cursor.Next(context.Background()) {
+		var cityModel CityModel
+		if err := cursor.Decode(&cityModel); err != nil {
+			return nil, 0, err
+		}
+
+		predictions = append(predictions, prediction.Prediction{
+			NameCity:       cityModel.NameCity,
+			NameCountry:    cityModel.NameCountry,
+			Temperature:    cityModel.Temperature,
+			MinTemperature: cityModel.MinTemperature,
+			MaxTemperature: cityModel.MaxTemperature,
+			Humidity:       cityModel.Humidity,
+			Condition:      cityModel.Condition,
+			Description:    cityModel.Description,
+			Wind:           cityModel.Wind,
+			Rain:           cityModel.Rain,
+			Date:           cityModel.Date,
+		})
+	}
+
+	if err := cursor.Err(); err != nil {
+		return nil, 0, err
+	}
+
+	totalCount, err := cq.db.Collection(cq.collection).CountDocuments(context.Background(), filter)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return predictions, uint(totalCount), nil
 }

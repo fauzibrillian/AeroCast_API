@@ -4,6 +4,7 @@ import (
 	"AeroCast_API/features/prediction"
 	"AeroCast_API/helper/responses"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo/v4"
@@ -68,5 +69,51 @@ func (ch *CityHandler) AddCity() echo.HandlerFunc {
 		response.Date = result.Date
 
 		return responses.PrintResponse(c, http.StatusCreated, "Success Create City Data", response)
+	}
+}
+
+// SearchCity implements prediction.Handler.
+func (ch *CityHandler) SearchCity() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		page, err := strconv.Atoi(c.QueryParam("page"))
+		if err != nil || page <= 0 {
+			page = 1
+		}
+
+		limit, err := strconv.Atoi(c.QueryParam("limit"))
+		if err != nil || limit <= 0 {
+			limit = 10
+		}
+
+		NameCity := c.QueryParam("NameCity")
+		NameCountry := c.QueryParam("NameCountry")
+		uintPage := uint(page)
+		uintLimit := uint(limit)
+
+		city, totalPage, err := ch.h.SearchCity(NameCity, NameCountry, uintPage, uintLimit)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, map[string]string{"error": err.Error()})
+		}
+		var response []CityResponse
+		for _, result := range city {
+			response = append(response, CityResponse{
+				Date:           result.Date,
+				NameCity:       result.NameCity,
+				NameCountry:    result.NameCountry,
+				Temperature:    result.Temperature,
+				MinTemperature: result.MinTemperature,
+				MaxTemperature: result.MaxTemperature,
+				Humidity:       result.Humidity,
+				Condition:      result.Condition,
+				Description:    result.Description,
+				Wind:           result.Wind,
+				Rain:           result.Rain,
+			})
+		}
+		return c.JSON(http.StatusOK, map[string]interface{}{
+			"message":    "Get City Successful",
+			"data":       response,
+			"pagination": map[string]interface{}{"page": page, "limit": limit, "total_page": totalPage},
+		})
 	}
 }

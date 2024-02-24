@@ -19,3 +19,7 @@ type CityResponse struct {
 	Rain           float64
 	Date           time.Time
 }
+
+type SearchCityRequest struct {
+	NameCity string
+}

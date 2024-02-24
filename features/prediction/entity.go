@@ -22,12 +22,15 @@ type Prediction struct {
 
 type Handler interface {
 	AddCity() echo.HandlerFunc
+	SearchCity() echo.HandlerFunc
 }
 
 type Repository interface {
 	NewCity(NewCity Prediction) (Prediction, error)
+	SearchCity(NameCity string, NameCountry string, page uint, limit uint) ([]Prediction, uint, error)
 }
 
 type Service interface {
 	NewCity(NewCity Prediction) (Prediction, error)
+	SearchCity(NameCity string, NameCountry string, page uint, limit uint) ([]Prediction, uint, error)
 }
