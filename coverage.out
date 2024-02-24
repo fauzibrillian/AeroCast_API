@@ -1,0 +1,8 @@
+mode: set
+AeroCast_API/features/prediction/service/service.go:12.54,16.2 1 1
+AeroCast_API/features/prediction/service/service.go:19.95,21.16 2 1
+AeroCast_API/features/prediction/service/service.go:21.16,23.3 1 0
+AeroCast_API/features/prediction/service/service.go:25.2,25.20 1 1
+AeroCast_API/features/prediction/service/service.go:29.135,31.16 2 1
+AeroCast_API/features/prediction/service/service.go:31.16,33.3 1 1
+AeroCast_API/features/prediction/service/service.go:35.2,35.31 1 1
