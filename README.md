@@ -59,3 +59,8 @@ Ensure you have an OpenWeatherMap API key for accessing weather data. Add the AP
 </details>
 
 <div>
+
+
+## Unit Testing
+![image](https://github.com/fauzibrillian/AeroCast_API/assets/73748420/661eb2cf-7fa1-49a8-bfbf-a0c467050738)
+
