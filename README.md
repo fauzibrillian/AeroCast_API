@@ -4,7 +4,7 @@ A simple weather application with MongoDB as the database.
 
 ## Description
 
-This application allows users to view weather data based on city and country. Weather data is stored in MongoDB without requiring a login system.
+AeroCast_API is a weather application built using the Go programming language, MongoDB as the database, and the Echo framework. This application allows users to access and view weather data based on city and country information. Notably, the weather data is stored in MongoDB, and the application does not require a login system for user access.
 
 ## Features
 
@@ -36,6 +36,10 @@ Install dependency
 ```bash
 go mod tidy
 ```
+
+## OpenWeatherMap API Key
+
+Ensure you have an OpenWeatherMap API key for accessing weather data. Add the API key to your configuration file.
 
 ## KEY VALUE
 ![alt text](image.png)
